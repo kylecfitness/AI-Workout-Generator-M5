@@ -1,0 +1,135 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>AI Program Mark 5 – Workout Generator</title>
+<style>
+body {font-family: Arial, sans-serif; max-width: 900px; margin: 40px auto; line-height: 1.6;}
+h1 {margin-bottom: 10px;}
+label {font-weight: bold;}
+input, select, textarea {width: 100%; padding: 8px; margin: 6px 0 16px 0;}
+button {padding: 12px 20px; font-size: 16px; cursor: pointer;}
+textarea.output {height: 400px;}
+</style>
+</head>
+<body>
+
+<h1>AI Program Mark 5</h1>
+<p>Fill this out and click generate. Copy the output and paste it into ChatGPT to get a full 12-week adaptive workout program.</p>
+
+<label>Fitness Level</label>
+<select id="level">
+<option>Beginner</option>
+<option>Intermediate</option>
+<option>Advanced</option>
+</select>
+
+<label>Primary Goal</label>
+<select id="goal">
+<option>Muscle Growth</option>
+<option>Strength</option>
+<option>Fat Loss</option>
+<option>Athletic Performance</option>
+<option>General Fitness</option>
+</select>
+
+<label>Years Training</label>
+<input id="experience" />
+
+<label>Training Days Per Week</label>
+<input id="days" />
+
+<label>Preferred Training Split</label>
+<select id="split">
+<option>No preference</option>
+<option>Full Body</option>
+<option>Upper / Lower</option>
+<option>Push Pull Legs</option>
+<option>Body Part Split</option>
+</select>
+
+<label>Workout Length</label>
+<select id="length">
+<option>30 minutes</option>
+<option>45 minutes</option>
+<option>60 minutes</option>
+</select>
+
+<label>Available Equipment</label>
+<input id="equipment" />
+
+<label>Injuries or Limitations</label>
+<input id="injuries" />
+
+<label>Cardio Preference</label>
+<select id="cardio">
+<option>None</option>
+<option>Light cardio</option>
+<option>Moderate cardio</option>
+<option>High intensity cardio</option>
+</select>
+
+<label>Current Supplements</label>
+<input id="supplements" />
+
+<label>Bodyweight</label>
+<input id="weight" />
+
+<label>Want Supplement Suggestions?</label>
+<select id="supplementSug">
+<option>No</option>
+<option>Yes</option>
+</select>
+
+<label>Want Calorie Guidance?</label>
+<select id="calorieSug">
+<option>No</option>
+<option>Yes</option>
+</select>
+
+<br>
+<button onclick="generate()">Generate AI Prompt</button>
+
+<h2>Your AI Prompt</h2>
+<textarea class="output" id="output"></textarea>
+
+<script>
+function generate() {
+
+let text = `Create a 12-week adaptive workout program using the following user info:
+
+Fitness Level: ${document.getElementById("level").value}
+Goal: ${document.getElementById("goal").value}
+Training Experience: ${document.getElementById("experience").value} years
+Training Days Per Week: ${document.getElementById("days").value}
+Preferred Split: ${document.getElementById("split").value}
+Workout Length: ${document.getElementById("length").value}
+Available Equipment: ${document.getElementById("equipment").value}
+Injuries or Limitations: ${document.getElementById("injuries").value}
+Cardio Preference: ${document.getElementById("cardio").value}
+Current Supplements: ${document.getElementById("supplements").value}
+Bodyweight: ${document.getElementById("weight").value}
+Supplement Suggestions Requested: ${document.getElementById("supplementSug").value}
+Calorie Guidance Requested: ${document.getElementById("calorieSug").value}
+
+Design a fully structured 12-week adaptive workout program including:
+- weekly training split
+- progressive overload strategy
+- deload weeks
+- exercise substitutions if equipment is missing
+- fatigue management
+- cardio integration
+- exercise form guidance for each major exercise
+- recovery tips
+- optional supplement and calorie guidance if requested.
+
+Keep the instructions clear, practical, and beginner-friendly.`
+
+document.getElementById("output").value = text
+
+}
+</script>
+
+</body>
+</html>
