@@ -1,30 +1,21 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KCOptimized Free AI Workout Generator</title>
-
-<!-- Browser tab icon -->
+<title>AI Workout Generator</title>
 <link rel="icon" type="image/png" href="./logo.png">
 
 <style>
 *{box-sizing:border-box}
-
 body{
 margin:0;
-font-family:Arial, sans-serif;
+font-family:Arial,sans-serif;
 background:linear-gradient(180deg,#0f172a,#1f2937,#eaf0f7);
 color:#111827;
 padding:22px 12px 40px;
 }
-
-.page{
-max-width:1000px;
-margin:auto;
-}
-
+.page{max-width:1000px;margin:auto}
 .hero{
 background:linear-gradient(135deg,#0b1220,#111827,#1f2937);
 color:white;
@@ -34,16 +25,21 @@ text-align:center;
 margin-bottom:22px;
 box-shadow:0 20px 50px rgba(0,0,0,.25);
 }
-
 .logo{
-width:110px;
+width:90px;
 height:auto;
-margin-bottom:18px;
+margin-bottom:12px;
 display:block;
 margin-left:auto;
 margin-right:auto;
 }
-
+.hero h1{
+margin:10px 0;
+font-size:32px;
+}
+.hero p{
+color:#d1d5db;
+}
 .instagram-link{
 display:block;
 margin-top:10px;
@@ -51,14 +47,12 @@ font-weight:bold;
 color:#f59e0b;
 text-decoration:none;
 }
-
 .info-row{
 display:grid;
 grid-template-columns:repeat(3,1fr);
 gap:14px;
 margin-bottom:20px;
 }
-
 .info-card{
 background:white;
 border-radius:18px;
@@ -66,28 +60,24 @@ padding:16px;
 box-shadow:0 12px 28px rgba(0,0,0,.06);
 text-align:center;
 }
-
 .card{
 background:white;
 border-radius:24px;
 padding:26px;
 box-shadow:0 18px 38px rgba(15,23,42,.10);
 }
-
 .section-title{
 font-size:20px;
 margin:28px 0 12px;
 border-bottom:1px solid #e5e7eb;
 padding-bottom:8px;
 }
-
 .steps{
 display:grid;
 grid-template-columns:repeat(4,1fr);
 gap:12px;
 margin-bottom:22px;
 }
-
 .step{
 background:#f8fafc;
 border-radius:16px;
@@ -95,39 +85,33 @@ padding:14px;
 text-align:center;
 font-weight:bold;
 }
-
 .grid{
 display:grid;
 grid-template-columns:1fr 1fr;
 gap:16px;
 }
-
 .full{grid-column:1/-1}
-
 label{
 display:block;
 font-weight:bold;
 margin-bottom:6px;
 }
-
 input,select,textarea{
 width:100%;
 padding:12px;
 border-radius:10px;
 border:1px solid #d0d7de;
+font-size:14px;
 }
-
 textarea{
-min-height:220px;
+min-height:260px;
 }
-
 .button-row{
 display:flex;
 gap:10px;
 flex-wrap:wrap;
 margin-top:20px;
 }
-
 button{
 border:none;
 border-radius:12px;
@@ -135,10 +119,8 @@ padding:12px 16px;
 font-weight:bold;
 cursor:pointer;
 }
-
 .primary{background:#111827;color:white}
 .secondary{background:#e5e7eb}
-
 .tag-banner{
 margin-top:18px;
 padding:18px;
@@ -147,13 +129,11 @@ background:linear-gradient(135deg,#111827,#374151);
 color:white;
 text-align:center;
 }
-
 .footer{
 text-align:center;
 margin-top:28px;
 color:#6b7280;
 }
-
 @media(max-width:760px){
 .grid{grid-template-columns:1fr}
 .steps{grid-template-columns:1fr 1fr}
@@ -163,21 +143,15 @@ button{width:100%}
 </head>
 
 <body>
-
 <div class="page">
 
 <div class="hero">
-<!-- FIXED LOGO PATH -->
-<img src="./logo.png" class="logo" alt="KCOptimized Logo">
-
-<h1>KCOptimized Free AI Workout Generator</h1>
-
+<img src="./logo.png" class="logo" alt="Logo">
+<h1>AI Workout Generator</h1>
 <p>Create a personalized 12-week workout program in seconds.</p>
-
 <a class="instagram-link" href="https://instagram.com/kcoptimized" target="_blank">
 Follow on Instagram → @kcoptimized
 </a>
-
 </div>
 
 <div class="info-row">
@@ -189,7 +163,6 @@ Follow on Instagram → @kcoptimized
 <div class="card">
 
 <div class="section-title">How It Works</div>
-
 <div class="steps">
 <div class="step">1 Fill form</div>
 <div class="step">2 Generate prompt</div>
@@ -198,7 +171,6 @@ Follow on Instagram → @kcoptimized
 </div>
 
 <div class="section-title">Training Info</div>
-
 <div class="grid">
 
 <div>
@@ -273,7 +245,6 @@ Follow on Instagram → @kcoptimized
 </div>
 
 <div class="section-title">Equipment & Recovery</div>
-
 <div class="grid">
 
 <div>
@@ -305,17 +276,32 @@ Follow on Instagram → @kcoptimized
 
 </div>
 
-<div class="button-row">
+<div class="section-title">Supplements</div>
+<div class="grid">
 
+<div class="full">
+<label>Current Supplements</label>
+<input id="supplements" placeholder="Example: creatine, whey, electrolytes">
+</div>
+
+<div>
+<label>Want Suggested Supplements?</label>
+<select id="supplementSug">
+<option>No</option>
+<option>Yes</option>
+</select>
+</div>
+
+</div>
+
+<div class="button-row">
 <button class="primary" onclick="generatePrompt()">Generate Prompt</button>
 <button class="secondary" onclick="copyPrompt()">Copy Prompt</button>
 <button class="primary" onclick="openChatGPT()">Open in ChatGPT</button>
 <button class="secondary" onclick="resetForm()">Reset</button>
-
 </div>
 
 <div class="section-title">Your AI Prompt</div>
-
 <textarea id="output"></textarea>
 
 <div class="tag-banner">
@@ -332,9 +318,7 @@ Built by KCOptimized
 </div>
 
 <script>
-
 function generatePrompt(){
-
 const level=document.getElementById("level").value
 const goal=document.getElementById("goal").value
 const intensity=document.getElementById("intensity").value
@@ -345,6 +329,8 @@ const length=document.getElementById("length").value
 const equipment=document.getElementById("equipment").value
 const injuries=document.getElementById("injuries").value
 const cardio=document.getElementById("cardio").value
+const supplements=document.getElementById("supplements").value
+const supplementSug=document.getElementById("supplementSug").value
 
 const prompt=`Create a 12-week adaptive workout program.
 
@@ -358,11 +344,28 @@ Workout Length: ${length}
 Available Equipment: ${equipment}
 Injuries: ${injuries}
 Cardio Preference: ${cardio}
+Current Supplements: ${supplements}
+Suggested Supplements Requested: ${supplementSug}
 
-Include progressive overload, deload weeks, substitutions, fatigue management, and recovery tips.`
+Include progressive overload, deload weeks, substitutions, fatigue management, and recovery tips.
+
+Take current supplements into account before suggesting anything new.
+
+If supplement suggestions are requested, include a brief suggested supplement section.
+
+Format the final output so it is clean and easy to print as a PDF workout sheet.
+
+Use:
+- a program title
+- clear weekly structure
+- clearly labeled workout days
+- exercises with sets, reps, and rest
+- a notes section
+- a supplement section if requested
+
+Keep it organized, concise, and printer-friendly so the user can save or print it and bring it to the gym.`
 
 document.getElementById("output").value=prompt
-
 }
 
 function copyPrompt(){
@@ -372,23 +375,18 @@ document.execCommand("copy")
 }
 
 function openChatGPT(){
-
 const prompt=document.getElementById("output").value
-
 if(!prompt){
 alert("Generate prompt first.")
 return
 }
-
 const url="https://chat.openai.com/?prompt="+encodeURIComponent(prompt)
 window.open(url,"_blank")
-
 }
 
 function resetForm(){
 location.reload()
 }
-
 </script>
 
 </body>
