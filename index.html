@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -47,6 +46,19 @@ margin-top:10px;
 font-weight:bold;
 color:#f59e0b;
 text-decoration:none;
+}
+.compatibility-banner{
+margin:0 0 20px;
+padding:16px 18px;
+border-radius:18px;
+background:linear-gradient(135deg,#111827,#374151);
+color:white;
+text-align:center;
+box-shadow:0 12px 28px rgba(0,0,0,.10);
+font-weight:bold;
+}
+.compatibility-banner span{
+color:#fbbf24;
 }
 .info-row{
 display:grid;
@@ -122,6 +134,65 @@ cursor:pointer;
 }
 .primary{background:#111827;color:white}
 .secondary{background:#e5e7eb}
+.meter-wrap{
+margin-top:18px;
+padding:18px;
+border-radius:18px;
+background:#f8fafc;
+border:1px solid #e5e7eb;
+}
+.meter-top{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:12px;
+margin-bottom:12px;
+flex-wrap:wrap;
+}
+.meter-score{
+font-size:28px;
+font-weight:bold;
+color:#111827;
+}
+.meter-label{
+color:#6b7280;
+font-size:14px;
+}
+.meter-bar{
+height:14px;
+background:#e5e7eb;
+border-radius:999px;
+overflow:hidden;
+}
+.meter-fill{
+height:100%;
+width:92%;
+background:linear-gradient(90deg,#f59e0b,#10b981,#111827);
+transition:width .2s ease;
+}
+.meter-tags{
+display:flex;
+gap:8px;
+flex-wrap:wrap;
+margin-top:12px;
+}
+.meter-tag{
+padding:8px 10px;
+border-radius:999px;
+background:white;
+border:1px solid #d1d5db;
+font-size:13px;
+font-weight:bold;
+}
+.quick-tip{
+margin-top:16px;
+padding:16px;
+border-radius:16px;
+background:#eff6ff;
+border:1px solid #bfdbfe;
+color:#1e3a8a;
+line-height:1.5;
+}
 .tag-banner{
 margin-top:18px;
 padding:18px;
@@ -155,6 +226,10 @@ Follow on Instagram → @kcoptimized
 </a>
 </div>
 
+<div class="compatibility-banner">
+Works with <span>ChatGPT</span> • <span>Claude</span> • <span>Gemini</span> • <span>Universal AI prompts</span>
+</div>
+
 <div class="info-row">
 <div class="info-card"><b>Adaptive</b><br>Programs built around your schedule and equipment.</div>
 <div class="info-card"><b>12 Week Plan</b><br>Structured programs with progression.</div>
@@ -167,8 +242,26 @@ Follow on Instagram → @kcoptimized
 <div class="steps">
 <div class="step">1 Fill form</div>
 <div class="step">2 Generate prompt</div>
-<div class="step">3 Open ChatGPT</div>
+<div class="step">3 Open Your AI</div>
 <div class="step">4 Get program</div>
+</div>
+
+<div class="section-title">AI Platform</div>
+<div class="grid">
+<div>
+<label>Choose Your AI</label>
+<select id="aiPlatform">
+<option value="chatgpt">ChatGPT</option>
+<option value="claude">Claude</option>
+<option value="gemini">Gemini</option>
+<option value="universal">Universal</option>
+</select>
+</div>
+
+<div>
+<label>Prompt Style</label>
+<input id="promptStyle" value="Compound-first, clean printable workout output" readonly>
+</div>
 </div>
 
 <div class="section-title">Training Info</div>
@@ -325,13 +418,38 @@ Follow on Instagram → @kcoptimized
 
 <div class="button-row">
 <button class="primary" onclick="generatePrompt()">Generate Prompt</button>
-<button class="secondary" onclick="copyPrompt()">Copy Prompt</button>
-<button class="primary" onclick="openChatGPT()">Open in ChatGPT</button>
+<button class="secondary" onclick="copyPrompt()">Copy for My AI</button>
+<button class="primary" onclick="openAI()">Open AI</button>
+<button class="secondary" onclick="copyConversationStarter()">Copy Conversation Starter</button>
 <button class="secondary" onclick="resetForm()">Reset</button>
+</div>
+
+<div class="meter-wrap">
+<div class="meter-top">
+<div>
+<div class="meter-label">Prompt Strength Meter</div>
+<div class="meter-score"><span id="scoreValue">92</span>/100</div>
+</div>
+<div class="meter-label" id="meterContext">Optimized for ChatGPT</div>
+</div>
+<div class="meter-bar">
+<div class="meter-fill" id="meterFill"></div>
+</div>
+<div class="meter-tags" id="meterTags">
+<span class="meter-tag">✔ Compound-first</span>
+<span class="meter-tag">✔ Printable output</span>
+<span class="meter-tag">✔ Multi-AI ready</span>
+</div>
 </div>
 
 <div class="section-title">Your AI Prompt</div>
 <textarea id="output"></textarea>
+
+<div class="quick-tip" id="conversationTip">
+<b>Step 3 tip:</b> After pasting this into your AI, send this follow-up:
+<br><br>
+<i>"Turn this into a clean printable workout sheet with bold section headings, simple spacing, and a gym-friendly layout."</i>
+</div>
 
 <div class="tag-banner">
 Share your generated program and tag
@@ -347,44 +465,46 @@ Built by KCOptimized
 </div>
 
 <script>
-function generatePrompt(){
+function getBaseData(){
+return {
+aiPlatform: document.getElementById("aiPlatform").value,
+level: document.getElementById("level").value,
+goal: document.getElementById("goal").value,
+intensity: document.getElementById("intensity").value,
+bodyweight: document.getElementById("bodyweight").value,
+experience: document.getElementById("experience").value,
+days: document.getElementById("days").value,
+split: document.getElementById("split").value,
+length: document.getElementById("length").value,
+equipment: document.getElementById("equipment").value,
+injuries: document.getElementById("injuries").value,
+cardio: document.getElementById("cardio").value,
+nutritionGoal: document.getElementById("nutritionGoal").value,
+macroGuide: document.getElementById("macroGuide").value,
+supplements: document.getElementById("supplements").value,
+supplementSug: document.getElementById("supplementSug").value
+}
+}
 
-const level=document.getElementById("level").value
-const goal=document.getElementById("goal").value
-const intensity=document.getElementById("intensity").value
-const bodyweight=document.getElementById("bodyweight").value
-const experience=document.getElementById("experience").value
-const days=document.getElementById("days").value
-const split=document.getElementById("split").value
-const length=document.getElementById("length").value
-const equipment=document.getElementById("equipment").value
-const injuries=document.getElementById("injuries").value
-const cardio=document.getElementById("cardio").value
-const nutritionGoal=document.getElementById("nutritionGoal").value
-const macroGuide=document.getElementById("macroGuide").value
-const supplements=document.getElementById("supplements").value
-const supplementSug=document.getElementById("supplementSug").value
+function buildSharedPrompt(data){
+return `User Inputs:
+Fitness Level: ${data.level}
+Goal: ${data.goal}
+Intensity: ${data.intensity}
+Bodyweight: ${data.bodyweight}
+Training Experience: ${data.experience}
+Training Days Per Week: ${data.days}
+Preferred Split: ${data.split}
+Workout Length: ${data.length}
+Available Equipment: ${data.equipment}
+Injuries or Limitations: ${data.injuries}
+Cardio Preference: ${data.cardio}
 
-const prompt=`Create a professional 12-week adaptive training program based on the user information provided.
+Nutrition Goal: ${data.nutritionGoal}
+Macro Guidance Requested: ${data.macroGuide}
 
-User Inputs:
-Fitness Level: ${level}
-Goal: ${goal}
-Intensity: ${intensity}
-Bodyweight: ${bodyweight}
-Training Experience: ${experience}
-Training Days Per Week: ${days}
-Preferred Split: ${split}
-Workout Length: ${length}
-Available Equipment: ${equipment}
-Injuries or Limitations: ${injuries}
-Cardio Preference: ${cardio}
-
-Nutrition Goal: ${nutritionGoal}
-Macro Guidance Requested: ${macroGuide}
-
-Current Supplements: ${supplements}
-Suggested Supplements Requested: ${supplementSug}
+Current Supplements: ${data.supplements}
+Suggested Supplements Requested: ${data.supplementSug}
 
 PROGRAM OBJECTIVE
 
@@ -526,29 +646,142 @@ Do NOT discuss:
 - how the program was generated
 
 Do NOT include commentary unrelated to the training plan.`
+}
 
-document.getElementById("output").value=prompt
+function buildPrompt(data){
+const shared = buildSharedPrompt(data)
+
+if(data.aiPlatform === "chatgpt"){
+return `You are an expert strength coach and program designer.
+
+Create a professional 12-week adaptive training program based on the user information provided.
+
+${shared}`
+}
+
+if(data.aiPlatform === "claude"){
+return `Act as a professional strength and conditioning coach.
+
+Think step-by-step when designing the training plan, but only present the final polished output.
+
+Create a professional 12-week adaptive training program based on the user information provided.
+
+${shared}`
+}
+
+if(data.aiPlatform === "gemini"){
+return `Task:
+Create a professional 12-week adaptive training program.
+
+Role:
+You are a professional strength coach and program designer.
+
+Instructions:
+Use the user inputs and constraints below to build a polished printable training program.
+
+${shared}`
+}
+
+return `Role:
+You are a professional strength and conditioning coach.
+
+Task:
+Create a professional 12-week adaptive training program using the user inputs below.
+
+Important:
+Keep the output clean, readable, printable, and focused only on the workout and relevant support sections.
+
+${shared}`
+}
+
+function updateMeter(data){
+let score = 92
+if(data.aiPlatform === "universal") score = 95
+if(data.level === "Advanced") score += 1
+if(data.goal === "Muscle Growth" || data.goal === "Strength") score += 1
+if(score > 96) score = 96
+
+document.getElementById("scoreValue").textContent = score
+document.getElementById("meterFill").style.width = score + "%"
+const platformName = data.aiPlatform.charAt(0).toUpperCase() + data.aiPlatform.slice(1)
+document.getElementById("meterContext").textContent = "Optimized for " + platformName
+
+document.getElementById("meterTags").innerHTML = `
+<span class="meter-tag">✔ Compound-first</span>
+<span class="meter-tag">✔ Printable output</span>
+<span class="meter-tag">✔ ${platformName} ready</span>
+`
+}
+
+function updateTip(data){
+let aiName = "your AI"
+if(data.aiPlatform === "chatgpt") aiName = "ChatGPT"
+if(data.aiPlatform === "claude") aiName = "Claude"
+if(data.aiPlatform === "gemini") aiName = "Gemini"
+if(data.aiPlatform === "universal") aiName = "your AI platform"
+
+document.getElementById("conversationTip").innerHTML = `<b>Step 3 tip:</b> After pasting this into ${aiName}, send this follow-up:
+<br><br>
+<i>"Turn this into a clean printable workout sheet with bold section headings, simple spacing, and a gym-friendly layout."</i>`
+}
+
+function generatePrompt(){
+const data = getBaseData()
+const prompt = buildPrompt(data)
+document.getElementById("output").value = prompt
+updateMeter(data)
+updateTip(data)
 }
 
 function copyPrompt(){
 const output=document.getElementById("output")
+if(!output.value){
+generatePrompt()
+}
 output.select()
 document.execCommand("copy")
 }
 
-function openChatGPT(){
-const prompt=document.getElementById("output").value
-if(!prompt){
-alert("Generate prompt first.")
-return
+function copyConversationStarter(){
+const data = getBaseData()
+const aiNames = {
+chatgpt: "ChatGPT",
+claude: "Claude",
+gemini: "Gemini",
+universal: "your AI platform"
 }
-const url="https://chat.openai.com/?prompt="+encodeURIComponent(prompt)
+const text = `Paste your generated prompt into ${aiNames[data.aiPlatform]}.
+
+Then send this follow-up:
+
+"Turn this into a clean printable workout sheet with bold section headings, simple spacing, and a gym-friendly layout."`
+
+const temp = document.createElement("textarea")
+temp.value = text
+document.body.appendChild(temp)
+temp.select()
+document.execCommand("copy")
+document.body.removeChild(temp)
+}
+
+function openAI(){
+const data = getBaseData()
+if(!document.getElementById("output").value){
+generatePrompt()
+}
+let url = "https://chat.openai.com/"
+if(data.aiPlatform === "claude") url = "https://claude.ai/"
+if(data.aiPlatform === "gemini") url = "https://gemini.google.com/"
+if(data.aiPlatform === "universal") url = "https://chat.openai.com/"
 window.open(url,"_blank")
 }
 
 function resetForm(){
 location.reload()
 }
+
+document.getElementById("aiPlatform").addEventListener("change", generatePrompt)
+window.onload = generatePrompt
 </script>
 
 </body>
