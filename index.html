@@ -365,8 +365,9 @@ const macroGuide=document.getElementById("macroGuide").value
 const supplements=document.getElementById("supplements").value
 const supplementSug=document.getElementById("supplementSug").value
 
-const prompt=`Create a 12-week adaptive workout program.
+const prompt=`Create a professional 12-week adaptive training program based on the user information provided.
 
+User Inputs:
 Fitness Level: ${level}
 Goal: ${goal}
 Intensity: ${intensity}
@@ -376,7 +377,7 @@ Training Days Per Week: ${days}
 Preferred Split: ${split}
 Workout Length: ${length}
 Available Equipment: ${equipment}
-Injuries: ${injuries}
+Injuries or Limitations: ${injuries}
 Cardio Preference: ${cardio}
 
 Nutrition Goal: ${nutritionGoal}
@@ -385,32 +386,146 @@ Macro Guidance Requested: ${macroGuide}
 Current Supplements: ${supplements}
 Suggested Supplements Requested: ${supplementSug}
 
-Design a fully structured 12‑week adaptive workout program including:
+PROGRAM OBJECTIVE
+
+Create a highly structured 12-week adaptive training program tailored to the user's experience, schedule, equipment, recovery capacity, and goal.
+
+The program should be realistic, progressive, and sustainable.
+
+PROGRAM REQUIREMENTS
+
+Design a fully structured 12-week training program that includes:
 - weekly training split
+- exercise selection appropriate for experience level and available equipment
 - progressive overload strategy
-- deload weeks
-- exercise substitutions if equipment is missing
-- fatigue management
-- cardio integration
-- recovery tips
+- planned deload weeks where appropriate
+- fatigue management strategies
+- exercise substitutions if equipment is limited
+- cardio integration based on user preference and goal
+- recovery recommendations
+
+Organize the training into logical phases if appropriate, such as:
+- foundation
+- volume accumulation
+- intensification
+- deload
+
+EXERCISE ORDER PRIORITY
+
+Prioritize compound movements first in each workout before accessory exercises.
+Examples include squats, deadlifts, bench press, overhead press, rows, pull-ups, lunges, and presses.
+
+Accessory work should support the main training goal and should not replace the core lifts unless equipment, injury, or experience level requires it.
+
+WORKOUT QUALITY RULES
+
+Prioritize quality over quantity.
+Avoid junk volume.
+Do not overload sessions with unnecessary isolation work.
+Match total workload to the user's training age, workout length, and recovery demands.
+
+HYPERTROPHY VOLUME GUIDANCE
+
+If the user's goal is muscle growth or hypertrophy, aim for an effective weekly training volume per muscle group.
+In most cases, program approximately 10 to 20 quality working sets per muscle group per week depending on the user's experience, recovery, and training frequency.
+
+For beginners, stay closer to the lower end.
+For intermediate and advanced users, increase volume only if recovery and training frequency support it.
+
+STRENGTH GUIDANCE
+
+If the user's goal is strength, prioritize:
+- lower rep ranges on main lifts
+- longer rest periods
+- slower volume progression
+- fewer but more effective accessory lifts
+
+FAT LOSS GUIDANCE
+
+If the user's goal is fat loss, preserve resistance training quality while using cardio and nutrition to support the calorie deficit.
+Do not reduce training quality so much that muscle retention is compromised.
+
+WORKOUT DAY FORMAT
+
+For each workout day include:
+Exercise Name
+Sets
+Reps
+Rest Time
+Optional Notes
+
+Use a clean and consistent structure for every training day.
+
+FORM GUIDANCE
+
+If the user's fitness level is Beginner or Intermediate, include brief form guidance for major compound exercises such as squats, deadlifts, bench press, overhead press, and rows.
+
+Keep these instructions short, practical, and focused on the biggest execution points.
+
+If the user's fitness level is Advanced, do not include basic form guidance unless an injury, limitation, or movement issue makes it relevant.
+
+PROGRESSION RULES
+
+Clearly explain how the user should progress over time.
+Examples:
+- add reps within a target range before adding load
+- increase load once top reps are achieved with good form
+- reduce volume or intensity during deload weeks
+- repeat loads if form breaks down
+
+Make progression practical and easy to follow.
+
+NUTRITION GUIDANCE
 
 If a nutrition goal is selected:
-- estimate daily calorie targets based on bodyweight
-- suggest macros for protein, carbs, and fats
-- adjust calories for deficit, maintenance, or surplus
+- estimate daily calorie targets using the user's bodyweight and training goal
+- provide macro ranges for protein, carbohydrates, and fats
+- adjust calories appropriately for deficit, maintenance, or surplus
 
-Take current supplements into account before suggesting new ones.
+Keep nutrition guidance practical and not overly technical.
 
-Format the final output so it is clean and printable as a PDF workout sheet the user can bring to the gym.
+SUPPLEMENT GUIDANCE
 
-Use:
-- program title
-- weekly structure
-- clearly labeled workout days
-- exercises with sets, reps, and rest
-- notes section
-- supplement section if requested
-- nutrition section if requested.`
+Review current supplements first.
+
+If supplement suggestions are requested, provide a short evidence-based section recommending useful supplements while avoiding redundancy with supplements the user already takes.
+
+Prioritize simple, useful options such as:
+- creatine
+- protein powder
+- electrolytes
+- caffeine if appropriate
+- basic recovery support if appropriate
+
+OUTPUT FORMAT
+
+Format the final output like a clean printable training document.
+
+Include:
+Program Title
+User Overview
+Goal Overview
+Weekly Training Split
+Full 12-Week Program
+Progression Guidance
+Recovery Notes
+Nutrition Section (if requested)
+Supplement Section (if requested)
+
+The final output should be organized, clear, easy to scan, and easy to print or save as a PDF workout sheet for gym use.
+
+IMPORTANT RULES
+
+Only generate the workout program and related sections.
+
+Do NOT discuss:
+- the generator
+- the website
+- improving the tool
+- adding features to the website
+- how the program was generated
+
+Do NOT include commentary unrelated to the training plan.`
 
 document.getElementById("output").value=prompt
 }
