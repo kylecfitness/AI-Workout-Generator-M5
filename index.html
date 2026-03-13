@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,33 +6,367 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AI Workout Generator</title>
 <link rel="icon" type="image/png" href="./logo.png">
+
+<style>
+*{box-sizing:border-box}
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:linear-gradient(180deg,#0f172a,#1f2937,#eaf0f7);
+color:#111827;
+padding:22px 12px 40px;
+}
+.page{max-width:1000px;margin:auto}
+.hero{
+background:linear-gradient(135deg,#0b1220,#111827,#1f2937);
+color:white;
+border-radius:26px;
+padding:34px 28px;
+text-align:center;
+margin-bottom:22px;
+box-shadow:0 20px 50px rgba(0,0,0,.25);
+}
+.logo{
+width:90px;
+height:auto;
+margin-bottom:12px;
+display:block;
+margin-left:auto;
+margin-right:auto;
+}
+.hero h1{
+margin:10px 0;
+font-size:32px;
+}
+.hero p{
+color:#d1d5db;
+}
+.instagram-link{
+display:block;
+margin-top:10px;
+font-weight:bold;
+color:#f59e0b;
+text-decoration:none;
+}
+.info-row{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:14px;
+margin-bottom:20px;
+}
+.info-card{
+background:white;
+border-radius:18px;
+padding:16px;
+box-shadow:0 12px 28px rgba(0,0,0,.06);
+text-align:center;
+}
+.card{
+background:white;
+border-radius:24px;
+padding:26px;
+box-shadow:0 18px 38px rgba(15,23,42,.10);
+}
+.section-title{
+font-size:20px;
+margin:28px 0 12px;
+border-bottom:1px solid #e5e7eb;
+padding-bottom:8px;
+}
+.steps{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:12px;
+margin-bottom:22px;
+}
+.step{
+background:#f8fafc;
+border-radius:16px;
+padding:14px;
+text-align:center;
+font-weight:bold;
+}
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:16px;
+}
+.full{grid-column:1/-1}
+label{
+display:block;
+font-weight:bold;
+margin-bottom:6px;
+}
+input,select,textarea{
+width:100%;
+padding:12px;
+border-radius:10px;
+border:1px solid #d0d7de;
+font-size:14px;
+}
+textarea{
+min-height:260px;
+}
+.button-row{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+margin-top:20px;
+}
+button{
+border:none;
+border-radius:12px;
+padding:12px 16px;
+font-weight:bold;
+cursor:pointer;
+}
+.primary{background:#111827;color:white}
+.secondary{background:#e5e7eb}
+.tag-banner{
+margin-top:18px;
+padding:18px;
+border-radius:16px;
+background:linear-gradient(135deg,#111827,#374151);
+color:white;
+text-align:center;
+}
+.footer{
+text-align:center;
+margin-top:28px;
+color:#6b7280;
+}
+@media(max-width:760px){
+.grid{grid-template-columns:1fr}
+.steps{grid-template-columns:1fr 1fr}
+button{width:100%}
+}
+</style>
 </head>
+
 <body>
-<h1>AI Workout Generator (Updated Master Prompt)</h1>
-<p>This is the updated HTML containing the improved master prompt logic. Replace your current index.html with this file.</p>
+<div class="page">
+
+<div class="hero">
+<img src="./logo.png" class="logo" alt="Logo">
+<h1>AI Workout Generator</h1>
+<p>Create a personalized 12-week workout program in seconds.</p>
+<a class="instagram-link" href="https://instagram.com/kcoptimized" target="_blank">
+Follow on Instagram → @kcoptimized
+</a>
+</div>
+
+<div class="info-row">
+<div class="info-card"><b>Adaptive</b><br>Programs built around your schedule and equipment.</div>
+<div class="info-card"><b>12 Week Plan</b><br>Structured programs with progression.</div>
+<div class="info-card"><b>Fast & Free</b><br>Generate your workout instantly.</div>
+</div>
+
+<div class="card">
+
+<div class="section-title">How It Works</div>
+<div class="steps">
+<div class="step">1 Fill form</div>
+<div class="step">2 Generate prompt</div>
+<div class="step">3 Open ChatGPT</div>
+<div class="step">4 Get program</div>
+</div>
+
+<div class="section-title">Training Info</div>
+<div class="grid">
+
+<div>
+<label>Fitness Level</label>
+<select id="level">
+<option>Beginner</option>
+<option>Intermediate</option>
+<option>Advanced</option>
+</select>
+</div>
+
+<div>
+<label>Goal</label>
+<select id="goal">
+<option>Muscle Growth</option>
+<option>Strength</option>
+<option>Fat Loss</option>
+<option>Athletic Performance</option>
+<option>General Fitness</option>
+</select>
+</div>
+
+<div>
+<label>Training Intensity</label>
+<select id="intensity">
+<option>Moderate</option>
+<option>Hard</option>
+<option>Elite</option>
+</select>
+</div>
+
+<div>
+<label>Body Weight (lbs)</label>
+<input id="bodyweight" placeholder="Example: 215">
+</div>
+
+<div>
+<label>Years Training</label>
+<input id="experience">
+</div>
+
+<div>
+<label>Training Days Per Week</label>
+<select id="days">
+<option>1</option>
+<option>2</option>
+<option>3</option>
+<option>4</option>
+<option>5</option>
+<option>6</option>
+<option>7</option>
+</select>
+</div>
+
+<div>
+<label>Preferred Split</label>
+<select id="split">
+<option>No preference</option>
+<option>Full Body</option>
+<option>Upper / Lower</option>
+<option>Push Pull Legs</option>
+<option>Body Part Split</option>
+</select>
+</div>
+
+<div>
+<label>Workout Length</label>
+<select id="length">
+<option>30 minutes</option>
+<option>45 minutes</option>
+<option>60 minutes</option>
+<option>90 minutes</option>
+<option>120 minutes</option>
+</select>
+</div>
+
+</div>
+
+<div class="section-title">Equipment & Recovery</div>
+<div class="grid">
+
+<div>
+<label>Available Equipment</label>
+<select id="equipment">
+<option>Full Gym</option>
+<option>Home Gym</option>
+<option>Dumbbells Only</option>
+<option>Barbells + Rack</option>
+<option>Machines Only</option>
+<option>Bodyweight Only</option>
+</select>
+</div>
+
+<div>
+<label>Cardio Preference</label>
+<select id="cardio">
+<option>None</option>
+<option>Light cardio</option>
+<option>Moderate cardio</option>
+<option>High intensity cardio</option>
+</select>
+</div>
+
+<div class="full">
+<label>Injuries or Limitations</label>
+<input id="injuries">
+</div>
+
+</div>
+
+<div class="section-title">Nutrition Program</div>
+<div class="grid">
+
+<div>
+<label>Nutrition Goal</label>
+<select id="nutritionGoal">
+<option>No nutrition program</option>
+<option>Fat Loss (Calorie Deficit)</option>
+<option>Maintenance</option>
+<option>Muscle Gain (Calorie Surplus)</option>
+</select>
+</div>
+
+<div>
+<label>Include Macro Guidance?</label>
+<select id="macroGuide">
+<option>No</option>
+<option>Yes</option>
+</select>
+</div>
+
+</div>
+
+<div class="section-title">Supplements</div>
+<div class="grid">
+
+<div class="full">
+<label>Current Supplements</label>
+<input id="supplements" placeholder="Example: creatine, whey, electrolytes">
+</div>
+
+<div>
+<label>Want Suggested Supplements?</label>
+<select id="supplementSug">
+<option>No</option>
+<option>Yes</option>
+</select>
+</div>
+
+</div>
+
+<div class="button-row">
+<button class="primary" onclick="generatePrompt()">Generate Prompt</button>
+<button class="secondary" onclick="copyPrompt()">Copy Prompt</button>
+<button class="primary" onclick="openChatGPT()">Open in ChatGPT</button>
+<button class="secondary" onclick="resetForm()">Reset</button>
+</div>
+
+<div class="section-title">Your AI Prompt</div>
+<textarea id="output"></textarea>
+
+<div class="tag-banner">
+Share your generated program and tag
+<a href="https://instagram.com/kcoptimized" style="color:white;font-weight:bold" target="_blank">@kcoptimized</a>
+</div>
+
+</div>
+
+<div class="footer">
+Built by KCOptimized
+</div>
+
+</div>
 
 <script>
 function generatePrompt(){
 
-const level=document.getElementById("level")?.value
-const goal=document.getElementById("goal")?.value
-const intensity=document.getElementById("intensity")?.value
-const bodyweight=document.getElementById("bodyweight")?.value
-const experience=document.getElementById("experience")?.value
-const days=document.getElementById("days")?.value
-const split=document.getElementById("split")?.value
-const length=document.getElementById("length")?.value
-const equipment=document.getElementById("equipment")?.value
-const injuries=document.getElementById("injuries")?.value
-const cardio=document.getElementById("cardio")?.value
-const nutritionGoal=document.getElementById("nutritionGoal")?.value
-const macroGuide=document.getElementById("macroGuide")?.value
-const supplements=document.getElementById("supplements")?.value
-const supplementSug=document.getElementById("supplementSug")?.value
+const level=document.getElementById("level").value
+const goal=document.getElementById("goal").value
+const intensity=document.getElementById("intensity").value
+const bodyweight=document.getElementById("bodyweight").value
+const experience=document.getElementById("experience").value
+const days=document.getElementById("days").value
+const split=document.getElementById("split").value
+const length=document.getElementById("length").value
+const equipment=document.getElementById("equipment").value
+const injuries=document.getElementById("injuries").value
+const cardio=document.getElementById("cardio").value
+const nutritionGoal=document.getElementById("nutritionGoal").value
+const macroGuide=document.getElementById("macroGuide").value
+const supplements=document.getElementById("supplements").value
+const supplementSug=document.getElementById("supplementSug").value
 
-const prompt=`Create a professional 12-week adaptive training program based on the user information provided.
+const prompt=`Create a 12-week adaptive workout program.
 
-User Inputs:
 Fitness Level: ${level}
 Goal: ${goal}
 Intensity: ${intensity}
@@ -41,7 +376,7 @@ Training Days Per Week: ${days}
 Preferred Split: ${split}
 Workout Length: ${length}
 Available Equipment: ${equipment}
-Injuries or Limitations: ${injuries}
+Injuries: ${injuries}
 Cardio Preference: ${cardio}
 
 Nutrition Goal: ${nutritionGoal}
@@ -50,73 +385,54 @@ Macro Guidance Requested: ${macroGuide}
 Current Supplements: ${supplements}
 Suggested Supplements Requested: ${supplementSug}
 
-PROGRAM REQUIREMENTS
-
-Design a fully structured 12-week training program that includes:
-• Weekly training split
-• Exercise selection appropriate for experience level
-• Progressive overload strategy
-• Planned deload weeks
-• Fatigue management strategies
-• Exercise substitutions if equipment is limited
-• Cardio integration based on preference
-• Recovery recommendations
-
-Structure the program in clear phases if appropriate.
-
-WORKOUT STRUCTURE
-
-For each workout day include:
-Exercise Name
-Sets
-Reps
-Rest Time
-Optional Notes
-
-FORM GUIDANCE
-
-Include brief form guidance for major compound exercises such as squats, deadlifts, bench press, overhead press, and rows.
-
-NUTRITION GUIDANCE
+Design a fully structured 12‑week adaptive workout program including:
+- weekly training split
+- progressive overload strategy
+- deload weeks
+- exercise substitutions if equipment is missing
+- fatigue management
+- cardio integration
+- recovery tips
 
 If a nutrition goal is selected:
-Estimate daily calorie targets using the user's bodyweight and training goal.
-Provide macro ranges for protein, carbohydrates, and fats.
-Adjust calories for deficit, maintenance, or surplus.
+- estimate daily calorie targets based on bodyweight
+- suggest macros for protein, carbs, and fats
+- adjust calories for deficit, maintenance, or surplus
 
-SUPPLEMENT GUIDANCE
+Take current supplements into account before suggesting new ones.
 
-Review current supplements first.
-If supplement suggestions are requested, provide a short section recommending useful supplements.
+Format the final output so it is clean and printable as a PDF workout sheet the user can bring to the gym.
 
-OUTPUT FORMAT
+Use:
+- program title
+- weekly structure
+- clearly labeled workout days
+- exercises with sets, reps, and rest
+- notes section
+- supplement section if requested
+- nutrition section if requested.`
 
-Format the final output like a clean printable training document.
+document.getElementById("output").value=prompt
+}
 
-Include:
-Program Title
-User Overview
-Weekly Training Split
-Full 12-Week Program
-Exercise Notes
-Nutrition Section (if requested)
-Supplement Section (if requested)
+function copyPrompt(){
+const output=document.getElementById("output")
+output.select()
+document.execCommand("copy")
+}
 
-At the end include a short line stating that the program can be printed or saved as a PDF.
+function openChatGPT(){
+const prompt=document.getElementById("output").value
+if(!prompt){
+alert("Generate prompt first.")
+return
+}
+const url="https://chat.openai.com/?prompt="+encodeURIComponent(prompt)
+window.open(url,"_blank")
+}
 
-IMPORTANT RULES
-
-Only generate the workout program and related sections.
-
-Do NOT discuss:
-• the generator
-• the website
-• improving the tool
-• adding features
-
-Do NOT explain how the program was generated.`
-
-return prompt
+function resetForm(){
+location.reload()
 }
 </script>
 
