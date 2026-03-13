@@ -1,31 +1,207 @@
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>AI Program Mark 5 – Workout Generator</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KCOptimized Free AI Workout Generator</title>
+<link rel="icon" href="logo.png">
+
 <style>
-body {font-family: Arial, sans-serif; max-width: 900px; margin: 40px auto; line-height: 1.6;}
-h1 {margin-bottom: 10px;}
-label {font-weight: bold;}
-input, select, textarea {width: 100%; padding: 8px; margin: 6px 0 16px 0;}
-button {padding: 12px 20px; font-size: 16px; cursor: pointer;}
-textarea.output {height: 400px;}
+*{box-sizing:border-box}
+
+body{
+margin:0;
+font-family:Arial, sans-serif;
+background:linear-gradient(180deg,#eef2f7,#f8fafc);
+color:#111827;
+padding:20px 12px 40px;
+transition:background .3s,color .3s;
+}
+
+.dark{
+background:#0f172a;
+color:#e5e7eb;
+}
+
+.page{max-width:1000px;margin:auto}
+
+.hero{
+background:linear-gradient(135deg,#111827,#1f2937);
+color:white;
+border-radius:22px;
+padding:28px;
+text-align:center;
+margin-bottom:20px;
+}
+
+.logo{width:90px;height:auto;margin-bottom:10px}
+
+.hero h1{margin:10px 0;font-size:30px}
+
+.hero p{color:#d1d5db;max-width:650px;margin:auto}
+
+.toggle{
+margin-top:15px;
+cursor:pointer;
+background:#fff;
+color:#111827;
+padding:8px 14px;
+border-radius:8px;
+display:inline-block;
+font-weight:bold;
+}
+
+.card{
+background:white;
+border:1px solid #e5e7eb;
+border-radius:20px;
+padding:24px;
+box-shadow:0 10px 26px rgba(0,0,0,.05);
+}
+
+.dark .card{background:#1e293b;border-color:#334155}
+
+.section-title{
+font-size:20px;
+margin:26px 0 12px;
+border-bottom:1px solid #e5e7eb;
+padding-bottom:6px;
+}
+
+.steps{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:12px;
+margin-bottom:20px;
+}
+
+.step{
+background:#f3f4f6;
+border-radius:12px;
+padding:14px;
+text-align:center;
+font-weight:bold;
+}
+
+.dark .step{background:#334155}
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:16px;
+}
+
+.full{grid-column:1/-1}
+
+label{
+display:block;
+font-weight:700;
+font-size:14px;
+margin-bottom:6px;
+}
+
+input,select,textarea{
+width:100%;
+padding:11px;
+border-radius:8px;
+border:1px solid #d0d7de;
+font-size:14px;
+}
+
+textarea{min-height:240px}
+
+.button-row{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+margin-top:20px;
+}
+
+button{
+border:none;
+border-radius:10px;
+padding:12px 16px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.primary{background:#111827;color:white}
+.secondary{background:#e5e7eb}
+
+.share{
+margin-top:18px;
+text-align:center;
+}
+
+.tag-banner{
+margin-top:18px;
+padding:18px;
+border-radius:14px;
+background:linear-gradient(135deg,#111827,#374151);
+color:white;
+text-align:center;
+}
+
+.tag-banner strong{display:block;font-size:18px;margin-bottom:6px}
+.tag-banner a{color:white;font-weight:bold;text-decoration:none}
+
+.footer{
+text-align:center;
+margin-top:28px;
+color:#6b7280;
+}
+
+@media(max-width:760px){
+.grid{grid-template-columns:1fr}
+.steps{grid-template-columns:1fr 1fr}
+button{width:100%}
+.button-row{flex-direction:column}
+}
 </style>
 </head>
+
 <body>
 
-<h1>AI Program Mark 5</h1>
-<p>Fill this out and click generate. Copy the output and paste it into ChatGPT to get a full 12-week adaptive workout program.</p>
+<div class="page">
 
+<div class="hero">
+
+<img src="logo.png" class="logo">
+
+<h1>KCOptimized Free AI Workout Generator</h1>
+
+<p>Create a personalized 12-week workout program in seconds.</p>
+
+<div class="toggle" onclick="toggleDark()">🌙 Toggle Dark Mode</div>
+
+</div>
+
+<div class="card">
+
+<div class="section-title">How It Works</div>
+
+<div class="steps">
+<div class="step">1️⃣ Fill out the form</div>
+<div class="step">2️⃣ Generate your prompt</div>
+<div class="step">3️⃣ Open it in ChatGPT</div>
+<div class="step">4️⃣ Get your 12-week program</div>
+</div>
+
+<div class="section-title">Training Info</div>
+
+<div class="grid">
+
+<div>
 <label>Fitness Level</label>
 <select id="level">
 <option>Beginner</option>
 <option>Intermediate</option>
 <option>Advanced</option>
 </select>
+</div>
 
-<label>Primary Goal</label>
+<div>
+<label>Goal</label>
 <select id="goal">
 <option>Muscle Growth</option>
 <option>Strength</option>
@@ -33,14 +209,29 @@ textarea.output {height: 400px;}
 <option>Athletic Performance</option>
 <option>General Fitness</option>
 </select>
+</div>
 
+<div>
+<label>Training Intensity</label>
+<select id="intensity">
+<option>Moderate</option>
+<option>Hard</option>
+<option>Elite</option>
+</select>
+</div>
+
+<div>
 <label>Years Training</label>
-<input id="experience" />
+<input id="experience">
+</div>
 
+<div>
 <label>Training Days Per Week</label>
-<input id="days" />
+<input id="days">
+</div>
 
-<label>Preferred Training Split</label>
+<div>
+<label>Preferred Split</label>
 <select id="split">
 <option>No preference</option>
 <option>Full Body</option>
@@ -48,20 +239,38 @@ textarea.output {height: 400px;}
 <option>Push Pull Legs</option>
 <option>Body Part Split</option>
 </select>
+</div>
 
+<div>
 <label>Workout Length</label>
 <select id="length">
 <option>30 minutes</option>
 <option>45 minutes</option>
 <option>60 minutes</option>
+<option>90 minutes</option>
+<option>120 minutes</option>
 </select>
+</div>
 
+</div>
+
+<div class="section-title">Equipment & Recovery</div>
+
+<div class="grid">
+
+<div>
 <label>Available Equipment</label>
-<input id="equipment" />
+<select id="equipment">
+<option>Full Gym</option>
+<option>Home Gym</option>
+<option>Dumbbells Only</option>
+<option>Barbells + Rack</option>
+<option>Machines Only</option>
+<option>Bodyweight Only</option>
+</select>
+</div>
 
-<label>Injuries or Limitations</label>
-<input id="injuries" />
-
+<div>
 <label>Cardio Preference</label>
 <select id="cardio">
 <option>None</option>
@@ -69,66 +278,127 @@ textarea.output {height: 400px;}
 <option>Moderate cardio</option>
 <option>High intensity cardio</option>
 </select>
+</div>
 
-<label>Current Supplements</label>
-<input id="supplements" />
+<div class="full">
+<label>Injuries or Limitations</label>
+<input id="injuries">
+</div>
 
-<label>Bodyweight</label>
-<input id="weight" />
+</div>
 
-<label>Want Supplement Suggestions?</label>
-<select id="supplementSug">
-<option>No</option>
-<option>Yes</option>
-</select>
+<div class="button-row">
 
-<label>Want Calorie Guidance?</label>
-<select id="calorieSug">
-<option>No</option>
-<option>Yes</option>
-</select>
+<button class="primary" onclick="generatePrompt()">Generate Prompt</button>
 
-<br>
-<button onclick="generate()">Generate AI Prompt</button>
+<button class="secondary" onclick="copyPrompt()">Copy Prompt</button>
 
-<h2>Your AI Prompt</h2>
-<textarea class="output" id="output"></textarea>
+<button class="primary" onclick="openChatGPT()">Open in ChatGPT</button>
+
+<button class="secondary" onclick="exampleFill()">Try Example</button>
+
+<button class="secondary" onclick="resetForm()">Reset</button>
+
+</div>
+
+<div class="section-title">Your AI Prompt</div>
+
+<textarea id="output"></textarea>
+
+<div class="share">
+<button onclick="shareSite()">Share Generator</button>
+</div>
+
+<div class="tag-banner">
+<strong>Share your generated program and tag <a href="https://instagram.com/kcoptimized" target="_blank">@kcoptimized</a></strong>
+Post your workout plan, story, or progress update and tag the page so more people can find the tool.
+</div>
+
+</div>
+
+<div class="footer">
+Built by <b>KCOptimized</b> • Instagram @kcoptimized
+</div>
+
+</div>
 
 <script>
-function generate() {
 
-let text = `Create a 12-week adaptive workout program using the following user info:
+function generatePrompt(){
 
-Fitness Level: ${document.getElementById("level").value}
-Goal: ${document.getElementById("goal").value}
-Training Experience: ${document.getElementById("experience").value} years
-Training Days Per Week: ${document.getElementById("days").value}
-Preferred Split: ${document.getElementById("split").value}
-Workout Length: ${document.getElementById("length").value}
-Available Equipment: ${document.getElementById("equipment").value}
-Injuries or Limitations: ${document.getElementById("injuries").value}
-Cardio Preference: ${document.getElementById("cardio").value}
-Current Supplements: ${document.getElementById("supplements").value}
-Bodyweight: ${document.getElementById("weight").value}
-Supplement Suggestions Requested: ${document.getElementById("supplementSug").value}
-Calorie Guidance Requested: ${document.getElementById("calorieSug").value}
+const level=document.getElementById("level").value
+const goal=document.getElementById("goal").value
+const intensity=document.getElementById("intensity").value
+const experience=document.getElementById("experience").value
+const days=document.getElementById("days").value
+const split=document.getElementById("split").value
+const length=document.getElementById("length").value
+const equipment=document.getElementById("equipment").value
+const injuries=document.getElementById("injuries").value
+const cardio=document.getElementById("cardio").value
 
-Design a fully structured 12-week adaptive workout program including:
-- weekly training split
-- progressive overload strategy
-- deload weeks
-- exercise substitutions if equipment is missing
-- fatigue management
-- cardio integration
-- exercise form guidance for each major exercise
-- recovery tips
-- optional supplement and calorie guidance if requested.
+const prompt=`Create a 12-week adaptive workout program.
 
-Keep the instructions clear, practical, and beginner-friendly.`
+Fitness Level: ${level}
+Goal: ${goal}
+Intensity: ${intensity}
+Training Experience: ${experience}
+Training Days: ${days}
+Split: ${split}
+Workout Length: ${length}
+Equipment: ${equipment}
+Injuries: ${injuries}
+Cardio Preference: ${cardio}
 
-document.getElementById("output").value = text
+Include progressive overload, deload weeks, substitutions, fatigue management, and recovery tips.`
+
+document.getElementById("output").value=prompt
+}
+
+function copyPrompt(){
+const output=document.getElementById("output")
+output.select()
+document.execCommand("copy")
+}
+
+function openChatGPT(){
+const prompt=document.getElementById("output").value
+if(!prompt){alert("Generate prompt first");return}
+const url="https://chat.openai.com/?prompt="+encodeURIComponent(prompt)
+window.open(url,"_blank")
+}
+
+function resetForm(){
+location.reload()
+}
+
+function exampleFill(){
+document.getElementById("level").value="Intermediate"
+document.getElementById("goal").value="Muscle Growth"
+document.getElementById("days").value="4"
+document.getElementById("experience").value="2 years"
+}
+
+function shareSite(){
+
+const url=window.location.href
+
+if(navigator.share){
+navigator.share({
+title:"KCOptimized Workout Generator",
+url:url
+})
+}else{
+navigator.clipboard.writeText(url)
+alert("Link copied!")
+}
 
 }
+
+function toggleDark(){
+document.body.classList.toggle("dark")
+}
+
 </script>
 
 </body>
