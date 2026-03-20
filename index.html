@@ -92,11 +92,46 @@ gap:12px;
 margin-bottom:22px;
 }
 .step{
-background:#f8fafc;
+background:#f59e0b;
+color:#111827;
 border-radius:16px;
 padding:14px;
 text-align:center;
 font-weight:bold;
+}
+.multi-select-box{
+width:100%;
+padding:12px;
+border-radius:10px;
+border:1px solid #d0d7de;
+font-size:14px;
+background:white;
+min-height:48px;
+display:flex;
+flex-wrap:wrap;
+gap:8px;
+align-items:flex-start;
+}
+.multi-chip{
+padding:8px 10px;
+border-radius:999px;
+background:#f3f4f6;
+border:1px solid #d1d5db;
+font-size:13px;
+font-weight:bold;
+cursor:pointer;
+user-select:none;
+transition:.15s ease;
+}
+.multi-chip.active{
+background:#111827;
+color:white;
+border-color:#111827;
+}
+.multi-help{
+margin-top:6px;
+font-size:12px;
+color:#6b7280;
 }
 .grid{
 display:grid;
@@ -412,11 +447,6 @@ Works with <span>ChatGPT</span> • <span>Claude</span> • <span>Gemini</span> 
 <option value="universal">Universal</option>
 </select>
 </div>
-
-<div>
-<label>AI Optimization</label>
-<input value="Automatically optimized for selected AI" readonly>
-</div>
 </div>
 
 <div class="section-title">Training Info</div>
@@ -432,14 +462,15 @@ Works with <span>ChatGPT</span> • <span>Claude</span> • <span>Gemini</span> 
 </div>
 
 <div>
-<label>Goal</label>
-<select id="goal">
-<option>Muscle Growth</option>
-<option>Strength</option>
-<option>Fat Loss</option>
-<option>Athletic Performance</option>
-<option>General Fitness</option>
-</select>
+<label>Goals</label>
+<div id="goalChips" class="multi-select-box">
+<span class="multi-chip active" data-value="Muscle Growth">Muscle Growth</span>
+<span class="multi-chip" data-value="Strength">Strength</span>
+<span class="multi-chip" data-value="Fat Loss">Fat Loss</span>
+<span class="multi-chip" data-value="Athletic Performance">Athletic Performance</span>
+<span class="multi-chip" data-value="General Fitness">General Fitness</span>
+</div>
+<div class="multi-help">Tap one or more goals.</div>
 </div>
 
 <div>
@@ -452,17 +483,18 @@ Works with <span>ChatGPT</span> • <span>Claude</span> • <span>Gemini</span> 
 </div>
 
 <div>
-<label>Primary Focus Area</label>
-<select id="focusArea">
-<option>Balanced</option>
-<option>Upper Body</option>
-<option>Lower Body</option>
-<option>Glutes</option>
-<option>Chest</option>
-<option>Back</option>
-<option>Arms</option>
-<option>Shoulders</option>
-</select>
+<label>Primary Focus Areas</label>
+<div id="focusAreaChips" class="multi-select-box">
+<span class="multi-chip active" data-value="Balanced">Balanced</span>
+<span class="multi-chip" data-value="Upper Body">Upper Body</span>
+<span class="multi-chip" data-value="Lower Body">Lower Body</span>
+<span class="multi-chip" data-value="Glutes">Glutes</span>
+<span class="multi-chip" data-value="Chest">Chest</span>
+<span class="multi-chip" data-value="Back">Back</span>
+<span class="multi-chip" data-value="Arms">Arms</span>
+<span class="multi-chip" data-value="Shoulders">Shoulders</span>
+</div>
+<div class="multi-help">Tap one or more focus areas.</div>
 </div>
 
 <div>
@@ -720,6 +752,31 @@ Built by KCOptimized
 </div>
 
 <script>
+
+function getSelectedValues(containerId){
+const chips = document.querySelectorAll(`#${containerId} .multi-chip.active`)
+return Array.from(chips).map(chip => chip.dataset.value)
+}
+
+function getSelectedText(containerId, fallback){
+const values = getSelectedValues(containerId)
+return values.length ? values.join(", ") : fallback
+}
+
+function initializeMultiChips(){
+document.querySelectorAll(".multi-select-box").forEach(box => {
+  box.querySelectorAll(".multi-chip").forEach(chip => {
+    chip.addEventListener("click", () => {
+      chip.classList.toggle("active")
+      if(!box.querySelector(".multi-chip.active")){
+        chip.classList.add("active")
+      }
+      try{ generatePrompt() }catch(e){}
+    })
+  })
+})
+}
+
 function getBaseData(){
 return {
 aiPlatform: document.getElementById("aiPlatform").value,
@@ -727,9 +784,9 @@ programPhase: document.getElementById("programPhase").value,
 programCode: document.getElementById("programCode").value,
 previousNotes: document.getElementById("previousNotes").value,
 level: document.getElementById("level").value,
-goal: document.getElementById("goal").value,
+goals: getSelectedValues("goalChips"),
 sexGender: document.getElementById("sexGender").value,
-focusArea: document.getElementById("focusArea").value,
+focusAreas: getSelectedValues("focusAreaChips"),
 intensity: document.getElementById("intensity").value,
 bodyweight: document.getElementById("bodyweight").value,
 experience: document.getElementById("experience").value,
@@ -806,7 +863,8 @@ const phaseMap = {
 "Phase 3 Intensification":"P3",
 "Deload & Rebuild":"DR"
 }
-const goalCode = goalMap[data.goal] || "GEN"
+const primaryGoal = data.goals[0] || "General Fitness"
+const goalCode = goalMap[primaryGoal] || "GEN"
 const phaseCode = phaseMap[data.programPhase] || "P1"
 const daysCode = data.days ? `${data.days}D` : "XD"
 const yearCode = new Date().getFullYear()
@@ -819,9 +877,9 @@ Program Phase: ${data.programPhase}
 Program Code: ${data.programCode}
 Previous Program Notes: ${data.previousNotes}
 Fitness Level: ${data.level}
-Goal: ${data.goal}
+Goals: ${getSelectedText("goalChips","Muscle Growth")}
 Sex/Gender: ${data.sexGender}
-Primary Focus Area: ${data.focusArea}
+Primary Focus Areas: ${getSelectedText("focusAreaChips","Balanced")}
 Intensity: ${data.intensity}
 Bodyweight: ${data.bodyweight}
 Training Experience: ${data.experience}
@@ -963,7 +1021,13 @@ Week 12 – Deload
 
 PRIMARY FOCUS AREA GUIDANCE
 
-The program should prioritize the selected focus area while still maintaining balanced training.
+The program should prioritize the selected focus area combination while still maintaining balanced training.
+
+If multiple focus areas are selected:
+• Slightly increase weekly emphasis for all selected areas
+• Keep the program balanced and recoverable
+• Do not let added focus areas remove essential movement patterns
+• If "Balanced" is selected with any other focus area, treat Balanced as general structure and the other selections as added emphasis
 
 Guidelines:
 Balanced
@@ -1007,7 +1071,25 @@ If the user selects "Prefer not to say", ignore sex-based adjustments and progra
 
 GOAL-FIRST PROGRAM DESIGN
 
-The program must be designed starting from the user's primary goal.
+The program must be designed starting from the user's selected goal combination.
+
+If multiple goals are selected:
+• Choose one clear primary goal based on what best fits the combination and supports the user safely
+• Use the remaining goals as secondary priorities
+• Explain the balance through exercise selection, volume, cardio, and progression
+• Never create conflicting programming that tries to maximize everything at once
+
+Examples:
+• Muscle Growth + Strength = hypertrophy-first with heavy compound progression
+• Fat Loss + Muscle Growth = muscle-retention hypertrophy plan with conditioning support
+• Athletic Performance + Strength = power and strength emphasis
+• General Fitness + Fat Loss = balanced training with conditioning support
+
+The program must still feel unified and intentional, not like multiple separate plans mixed together.
+
+PRIMARY GOAL RULE
+
+Choose the training structure, rep ranges, progression style, and fatigue management from the most appropriate primary goal.
 
 The goal determines:
 • rep ranges
@@ -1326,6 +1408,30 @@ Prioritize simple, useful options such as:
 - caffeine if appropriate
 - basic recovery support if appropriate
 
+FINAL OUTPUT REQUIREMENT
+
+Your final output must contain TWO clearly separated sections:
+
+=== FULL PROGRAM ===
+Provide the complete detailed coaching version of the 12-week adaptive training program with all explanations, progression logic, recovery guidance, exercise rationale, substitutions, nutrition guidance, and supplement recommendations if requested.
+
+=== PRINTABLE WORKOUT SHEET ===
+Provide a clean, compact, gym-ready printable version of the same program designed for easy export, download, or printing.
+
+The PRINTABLE WORKOUT SHEET must:
+- be standalone
+- include the full weekly structure
+- include every workout day
+- include every exercise with sets, reps, and rest
+- include progression notes in a compact format
+- include deload guidance in a compact format
+- include cardio, nutrition, and supplements only if selected by the user
+- be formatted for clean PDF export or direct browser printing
+
+Do not leave out important training details in the printable version.
+Do not make the printable section a summary only.
+It must be complete enough for the user to follow in the gym without referring back to the full version.
+
 OUTPUT FORMAT
 
 Format the final output like a clean printable training document.
@@ -1425,7 +1531,7 @@ function updateMeter(data){
 let score = 92
 if(data.aiPlatform === "universal") score = 95
 if(data.level === "Advanced") score += 1
-if(data.goal === "Muscle Growth" || data.goal === "Strength") score += 1
+if((data.goals || []).includes("Muscle Growth") || (data.goals || []).includes("Strength")) score += 1
 if(score > 96) score = 96
 
 document.getElementById("scoreValue").textContent = score
@@ -1458,7 +1564,7 @@ document.getElementById("conversationTip").innerHTML = `<b>Step 3 tip:</b> After
 }
 
 function buildPreview(data){
-const goal = data.goal
+const goal = (data.goals && data.goals[0]) ? data.goals[0] : "Muscle Growth"
 const days = parseInt(data.days,10)
 const phase = data.programPhase
 
@@ -1649,6 +1755,12 @@ el.value = ""
 }
 })
 
+document.querySelectorAll("#goalChips .multi-chip, #focusAreaChips .multi-chip").forEach(chip => chip.classList.remove("active"))
+const defaultGoal = document.querySelector('#goalChips .multi-chip[data-value="Muscle Growth"]')
+const defaultFocus = document.querySelector('#focusAreaChips .multi-chip[data-value="Balanced"]')
+if(defaultGoal) defaultGoal.classList.add("active")
+if(defaultFocus) defaultFocus.classList.add("active")
+
 // clear prompt/status UI without regenerating
 document.getElementById("output").value = ""
 document.getElementById("promptStatus").classList.remove("show")
@@ -1683,7 +1795,10 @@ Goal for next phase:`
 
 document.getElementById("aiPlatform").addEventListener("change", generatePrompt)
 document.getElementById("programPhase").addEventListener("change", generatePrompt)
-window.onload = generatePrompt
+window.onload = () => {
+initializeMultiChips()
+generatePrompt()
+}
 </script>
 
 </body>
